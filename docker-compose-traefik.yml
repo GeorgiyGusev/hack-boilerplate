@@ -3,7 +3,7 @@ services:
   traefik:
     image: traefik:latest
     command:
-      - "--log.level=INFO"
+      - "--log.level=DEBUG"
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--entryPoints.web.address=:80"              # HTTP на порте 80
