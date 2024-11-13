@@ -9,7 +9,7 @@ services:
       - "--entryPoints.web.address=:80"              # HTTP на порте 80
       - "--entryPoints.websecure.address=:443"       # HTTPS на порте 443
       - "--certificatesResolvers.leresolver.acme.httpChallenge.entryPoint=web"  # HTTP-челлендж для получения сертификатов
-      - "--certificatesResolvers.leresolver.acme.email=your-email@example.com"  # Ваш email для регистрации в Let's Encrypt
+      - "--certificatesResolvers.leresolver.acme.email=georgiy.gus@yandex.ru"  # Ваш email для регистрации в Let's Encrypt
       - "--certificatesResolvers.leresolver.acme.storage=/acme.json" # Хранение сертификатов
     ports:
       - "80:80"                                     # Прокси для HTTP

@@ -1,0 +1,29 @@
+name: "portainer"
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock  # Подключение к Docker демону
+    ports:
+      - "9000:9000"        # Порт для доступа к интерфейсу Portainer
+    networks:
+      - traefik
+    volumes:
+      - "portainer_data:/data"  # Монтируем том для хранения данных Portainer
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Доступ к Docker демону
+    labels:
+      - "traefik.enable=true"                                      # Включаем Traefik для Portainer
+      - "traefik.http.routers.portainer.rule=Host(`portainer.kowlad.ru`)"  # Домен для доступа к Portainer
+      - "traefik.http.routers.portainer.entrypoints=websecure"             # Используем HTTPS
+      - "traefik.http.routers.portainer.tls.certresolver=leresolver"      # Используем Let's Encrypt
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"   # Порт Portainer внутри контейнера
+    restart: always
+
+networks:
+  traefik:
+    name: "traefik-network"
+    external: true
+
+volumes:
+  portainer_data:  # Здесь хранится вся информация о Portainer
