@@ -10,7 +10,9 @@ services:
       - "--entryPoints.websecure.address=:443"
       - "--certificatesResolvers.leresolver.acme.httpChallenge.entryPoint=web"
       - "--certificatesResolvers.leresolver.acme.email=georgiy.guse@gmail.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.leresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory" # staggin сервер
+
     ports:
       - "80:80"
       - "443:443"
