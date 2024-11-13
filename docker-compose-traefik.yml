@@ -8,9 +8,9 @@ services:
       - "--providers.docker=true"
       - "--entryPoints.web.address=:80"              # HTTP на порте 80
       - "--entryPoints.websecure.address=:443"       # HTTPS на порте 443
-      - "--certificatesResolvers.leresolver.acme.httpChallenge.entryPoint=web"  # HTTP-челлендж для получения сертификатов
-      - "--certificatesResolvers.leresolver.acme.email=georgiy.gus@yandex.ru"  # Ваш email для регистрации в Let's Encrypt
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"  # Путь к файлу для хранения сертификатов
+#      - "--certificatesResolvers.leresolver.acme.httpChallenge.entryPoint=web"  # HTTP-челлендж для получения сертификатов
+#      - "--certificatesResolvers.leresolver.acme.email=georgiy.gus@yandex.ru"  # Ваш email для регистрации в Let's Encrypt
+#      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"  # Путь к файлу для хранения сертификатов
     ports:
       - "80:80"
       - "443:443"
@@ -19,11 +19,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`traefik.kowlad.ru`)"
-      - "traefik.http.routers.dashboard.entrypoints=websecure"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=leresolver"
       - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
-      - "traefik.http.services.dashboard.loadbalancer.server.scheme=https"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+#      - "traefik.http.routers.dashboard.entrypoints=websecure"
+#      - "traefik.http.routers.dashboard.tls=true"
+#      - "traefik.http.routers.dashboard.tls.certresolver=leresolver"
+#      - "traefik.http.services.dashboard.loadbalancer.server.scheme=https"
+
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"  # Монтируем Docker сокет для Traefik
       - "./letsencrypt:/letsencrypt"  # Папка для хранения сертификатов                  # Храним сертификаты в этом файле

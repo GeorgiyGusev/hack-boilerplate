@@ -12,10 +12,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.backend-https.rule=Host(`backend.kowlad.ru`) && PathPrefix(`/todo-api/v1`)"
       - "traefik.http.routers.backend-https.service=backend"
-      - "traefik.http.routers.backend-https.entrypoints=websecure"           # Используем HTTPS (websecure)
-      - "traefik.http.routers.backend-https.tls.certresolver=leresolver"     # Используем Let's Encrypt для TLS
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
-      - "traefik.http.services.backend.loadbalancer.server.scheme=https"
+      - "traefik.http.routers.backend.entrypoints=web"
+#      - "traefik.http.routers.backend.entrypoints=websecure"
+#      - "traefik.http.routers.backend.tls=true"
+#      - "traefik.http.routers.backend.tls.certresolver=leresolver"
+#      - "traefik.http.services.backend.loadbalancer.server.scheme=https"
+
     networks:
       - traefik
 networks:
