@@ -15,10 +15,7 @@ services:
       - "traefik.http.routers.backend-https.entrypoints=websecure"           # Используем HTTPS (websecure)
       - "traefik.http.routers.backend-https.tls.certresolver=leresolver"     # Используем Let's Encrypt для TLS
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
-      # Добавляем HTTP → HTTPS редирект
-      - "traefik.http.routers.backend-http.rule=Host(`backend.kowlad.ru`)"
-      - "traefik.http.routers.backend-http.entrypoints=web"
-      - "traefik.http.routers.backend-http.middlewares=redirect-to-https"
+      - "traefik.http.services.backend.loadbalancer.server.scheme=https"
     networks:
       - traefik
 networks:
