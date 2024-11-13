@@ -18,9 +18,10 @@ services:
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.entrypoints=websecure"             # Используем HTTPS
       - "traefik.http.routers.portainer.tls.certresolver=leresolver"      # Используем Let's Encrypt
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"   # Порт Portainer внутри контейнера
+      - "traefik.http.services.portainer.loadbalancer.server.port=8000"   # Порт Portainer внутри контейнера
       - "traefik.http.services.portainer.loadbalancer.server.scheme=https"
     restart: always
+
 
 networks:
   traefik:
