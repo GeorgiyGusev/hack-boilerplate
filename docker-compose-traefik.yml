@@ -18,9 +18,20 @@ services:
       - traefik                                         # Подключаем Traefik к сети 'traefik'
     labels:
       - "traefik.enable=true"                       # Включаем Traefik для этого контейнера
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.kowlad.ru`)"  # Панель будет доступна по http://traefik.localhost
-      - "traefik.http.routers.dashboard.service=api@internal"           # Определяем API как внутренний сервис
-      - "traefik.http.routers.dashboard.entrypoints=web"                # Используем HTTP (80) для панели управления
+      - "traefik.http.routers.dashboard-https.rule=Host(`traefik.kowlad.ru`)"  # Панель будет доступна по http://traefik.localhost
+      - "traefik.http.routers.dashboard-https.service=api@internal"           # Определяем API как внутренний сервис
+      - "traefik.http.routers.dashboard-https.entrypoints=websecure"                # Используем HTTP (80) для панели управления
+      - "traefik.http.routers.dashboard-https.tls=true" # Включаем TLS
+      - "traefik.http.routers.dashboard-https.tls.certresolver=leresolver" # Указываем резолвер для Let's Encrypt
+
+      # Добавляем HTTP → HTTPS редирект
+      - "traefik.http.routers.dashboard-http.rule=Host(`traefik.kowlad.ru`)"
+      - "traefik.http.routers.dashboard-http.entrypoints=web"
+      - "traefik.http.routers.dashboard-http.middlewares=redirect-to-https"
+
+      # Middleware для редиректа
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectScheme.permanent=true" # Постоянный редирект
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"  # Монтируем Docker сокет для Traefik
       - "./acme.json:/acme.json"                     # Храним сертификаты в этом файле
