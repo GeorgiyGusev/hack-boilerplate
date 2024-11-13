@@ -16,10 +16,11 @@ services:
       - "traefik.enable=true"                                      # Включаем Traefik для Portainer
       - "traefik.http.routers.portainer.rule=Host(`portainer.kowlad.ru`)"  # Домен для доступа к Portainer
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"   # Порт Portainer внутри контейнера
-      - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.routers.portainer.tls=true"
-      - "traefik.http.routers.portainer.tls.certresolver=leresolver"
-      - "traefik.http.services.portainer.loadbalancer.server.scheme=https"
+      - "traefik.http.routers.portainer.entrypoints=web"
+#      - "traefik.http.routers.portainer.entrypoints=websecure"
+#      - "traefik.http.routers.portainer.tls=true"
+#      - "traefik.http.routers.portainer.tls.certresolver=leresolver"
+#      - "traefik.http.services.portainer.loadbalancer.server.scheme=https"
     restart: always
 
 
