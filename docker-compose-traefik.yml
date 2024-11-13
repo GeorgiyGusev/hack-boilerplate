@@ -3,6 +3,7 @@ services:
   traefik:
     image: traefik:latest
     command:
+      - "--api.insecure=true"
       - "--log.level=DEBUG"
       - "--api.dashboard=true"
       - "--providers.docker=true"
