@@ -10,7 +10,7 @@ services:
       - "--entryPoints.websecure.address=:443"       # HTTPS на порте 443
       - "--certificatesResolvers.leresolver.acme.httpChallenge.entryPoint=web"  # HTTP-челлендж для получения сертификатов
       - "--certificatesResolvers.leresolver.acme.email=georgiy.gus@yandex.ru"  # Ваш email для регистрации в Let's Encrypt
-      - "--certificatesResolvers.leresolver.acme.storage=./acme.json" # Хранение сертификатов
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"  # Путь к файлу для хранения сертификатов
     ports:
       - "80:80"
       - "443:443"
@@ -34,7 +34,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectScheme.permanent=true" # Постоянный редирект
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"  # Монтируем Docker сокет для Traefik
-      - "./acme.json:acme.json"                     # Храним сертификаты в этом файле
+      - "./letsencrypt:/letsencrypt"  # Папка для хранения сертификатов                  # Храним сертификаты в этом файле
     environment:
       - "TZ=Europe/Moscow"                           # Указываем ваш часовой пояс
     restart: always
