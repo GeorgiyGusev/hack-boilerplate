@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    deploy:
-      replicas: 3                             # Количество реплик для бэкенда
     environment:
       SERVICE_NAME: todo-api
       SERVICE_VERSION: v1
