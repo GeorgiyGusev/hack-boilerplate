@@ -1,0 +1,44 @@
+name: "hack_boilerplate"
+services:
+  traefik:
+    image: traefik:latest
+    command:
+      - "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--entryPoints.web.address=:80"              # HTTP на порте 80
+      - "--entryPoints.websecure.address=:443"       # HTTPS на порте 443
+    ports:
+      - "80:80"                                     # Прокси для HTTP
+      - "443:443"                                   # Прокси для HTTPS
+    networks:
+      - web                                         # Подключаем Traefik к сети 'web'
+    labels:
+      - "traefik.enable=true"                       # Включаем Traefik для этого контейнера
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"  # Панель будет доступна по http://traefik.localhost
+      - "traefik.http.routers.dashboard.service=api@internal"           # Определяем API как внутренний сервис
+      - "traefik.http.routers.dashboard.entrypoints=web"                # Используем HTTP (80) для панели управления
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Монтируем Docker сокет для Traefik
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 3                             # Количество реплик для бэкенда
+    environment:
+      SERVICE_NAME: todo-api
+      SERVICE_VERSION: v1
+    labels:
+      - "traefik.enable=true"                  # Включаем проксирование для этого сервиса
+      - "traefik.http.routers.backend.rule=Host(`backend.localhost`) && PathPrefix(`/todo-api/v1`)"  # Прокси для бэкенда
+      - "traefik.http.routers.backend.service=backend"
+      - "traefik.http.services.backend.loadbalancer.server.port=8080"  # Указываем порт сервиса внутри контейнера
+      - "traefik.http.routers.backend.entrypoints=web"
+    networks:
+      - web                                     # Подключаем бэкенд к сети 'web'
+
+networks:
+  web: # Определяем сеть 'web', которая будет использоваться для связи между сервисами
+    driver: bridge                              # Используем стандартный драйвер сети Docker

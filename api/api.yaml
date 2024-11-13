@@ -7,10 +7,8 @@ info:
     name: API Support
     email: support@example.com
 servers:
-  - url: http://localhost:8080
+  - url: http://backend.localhost/todo-api/v1
     description: Локальный сервер для разработки
-  - url: https://api.example.com/v1
-    description: Основной сервер API
 
 tags:
   - name: Tasks

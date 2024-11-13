@@ -13,7 +13,7 @@ type Handlers struct {
 	Todos map[string]Todo
 }
 
-func Register(e *echo.Echo) {
+func Register(e EchoRouter) {
 	impl := &Handlers{
 		Todos: make(map[string]Todo),
 	}
@@ -24,6 +24,9 @@ func (h *Handlers) GetTodos(ctx echo.Context, _ GetTodosParams) error {
 	var resp []Todo
 	for _, v := range h.Todos {
 		resp = append(resp, v)
+	}
+	if resp == nil {
+		return ctx.JSON(200, []Todo{})
 	}
 	return ctx.JSON(200, resp)
 }
