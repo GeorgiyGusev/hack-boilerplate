@@ -10,7 +10,7 @@ services:
       SERVICE_VERSION: v1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend-https.rule=Host(`backend.kowlad.ru`) && PathPrefix(`/todo-api/v1`)"
+      - "traefik.http.routers.backend-https.rule=Host(`api.kowlad.ru`) && PathPrefix(`/todo-api/v1`)"
       - "traefik.http.routers.backend-https.service=backend"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
       - "traefik.http.routers.backend.entrypoints=web"
