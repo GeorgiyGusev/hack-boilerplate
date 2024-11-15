@@ -10,14 +10,14 @@ services:
       SERVICE_VERSION: v1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend-https.rule=Host(`api.kowlad.ru`) && PathPrefix(`/todo-api/v1`)"
+      - "traefik.http.routers.backend-https.rule=Host(`api.goida.dev`) && PathPrefix(`/todo-api/v1`)"
       - "traefik.http.routers.backend-https.service=backend"
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
-      - "traefik.http.routers.backend.entrypoints=web"
-#      - "traefik.http.routers.backend.entrypoints=websecure"
-#      - "traefik.http.routers.backend.tls=true"
-#      - "traefik.http.routers.backend.tls.certresolver=leresolver"
-#      - "traefik.http.services.backend.loadbalancer.server.scheme=https"
+#      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.routers.backend.tls.certresolver=leresolver"
+      - "traefik.http.services.backend.loadbalancer.server.scheme=https"
 
     networks:
       - traefik
