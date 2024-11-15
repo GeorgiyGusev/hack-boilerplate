@@ -11,7 +11,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.goida.dev`) && PathPrefix(`/todo-api/v1`)"
-      - "traefik.http.routers.backend.service=backend"
 #      - "traefik.http.routers.backend.entrypoints=web"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls=true"
